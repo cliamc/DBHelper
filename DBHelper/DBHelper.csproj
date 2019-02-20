@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DA8D1A28-5607-4187-9CE8-661C4CA5034C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DBHelper</RootNamespace>
+    <AssemblyName>DBHelper</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccessFoxProOLE.cs" />
+    <Compile Include="AccessFoxProODBC.cs" />
+    <Compile Include="FoxProTable\FoxProAmplifs.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AccessSQL.cs" />
+    <Compile Include="DBConnectionStr.cs" />
+    <Compile Include="SQLTable\EpicorPartRev.cs" />
+    <Compile Include="SQLTable\EpicorVJobInformation.cs" />
+    <Compile Include="SQLTable\EpicorJobMtl.cs" />
+    <Compile Include="SQLTable\EpicorVPartSearch.cs" />
+    <Compile Include="SQLTable\EpicorVPartWhereUsedFGAllRev.cs" />
+    <Compile Include="SQLTable\MfgDataApplicationParam.cs" />
+    <Compile Include="SQLTable\MfgDataAssociatedSubAssembly.cs" />
+    <Compile Include="SQLTable\MfgDataNotSerializedSub.cs" />
+    <Compile Include="SQLTable\MfgDataTraceRecord.cs" />
+    <Compile Include="SQLTable\MfgDataPart.cs" />
+    <Compile Include="SQLTable\MfgDataJob.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
