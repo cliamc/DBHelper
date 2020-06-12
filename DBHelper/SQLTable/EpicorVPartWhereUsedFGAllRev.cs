@@ -16,6 +16,7 @@ namespace DBHelper.SQLTable
         private string partRev = "";
 
         public List<string> AllParts = new List<string>();
+        private List<string> uniqueParts = new List<string>();
 
         public EpicorVPartWhereUsedFGAllRev(string pn, string ver)
         {
@@ -29,21 +30,33 @@ namespace DBHelper.SQLTable
 
         private void SetAllParts()
         {
-            string sqlCmd = string.Format("select * from v_PartWhereUsedFG_AllRev where PartNum = '{0}' and RevisionNum = '{1}'", this.partNum, this.partRev);
+            string sqlCmd = string.Format("select * from v_PartWhereUsedFG_AllRev where PartNum = '{0}' and RevisionNum = '{1}' order by MtlPartNum", this.partNum, this.partRev);
             dbAccess.SetQueryCmd(sqlCmd);
             DataTable dt = dbAccess.ReadDbData();
 
-            if (dt != null)
+            if (dt.Rows.Count > 0)
             {
                 foreach (DataRow dRow in dt.Rows)
                 {
+                    string tQty = (string)dRow["QtyPer"].ToString();
+                    int pos = tQty.IndexOf(".");
+                    string intPortion = tQty.Substring(0, pos);
+                    int tfloat = Convert.ToInt32(intPortion);
                     string tmp = (string)dRow["MtlPartNum"];
 
-                    AllParts.Add(tmp);
+                    uniqueParts.Add(tmp);
+                    for (int i = 1; i <= tfloat; i++)
+                    {
+                        AllParts.Add(tmp);
+                    }
                 }
             }
         }
 
+        public List<string> GetUniqueParts()
+        {
+            return this.uniqueParts;
+        }
 
     } // class
 }
