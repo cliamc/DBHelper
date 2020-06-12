@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -81,6 +82,37 @@ namespace DBHelper
                 _Conn.Open();
 
                 SqlCommand sCmd = new SqlCommand(_queryCmd, _Conn);
+                // Default SqlCommand.CommandTimeout value is 30 seconds.
+                //XLiUtilLog.LogMessage(sCmd.CommandTimeout.ToString());
+                sCmd.CommandTimeout = 600;                                  // Make it 10 minutes
+
+                sCmd.ExecuteNonQuery();
+                sCmd.Dispose();
+                _Conn.Close();
+            }
+            catch (SqlException)
+            {
+                throw;                          // to be caught and treated at the calling place
+            }
+            finally
+            {
+                _Conn.Close();
+            }
+        }
+
+        public void RunSQLcmdParam(List<SqlParameter> lsp)
+        {
+            try
+            {
+                _Conn.Open();
+
+                SqlCommand sCmd = new SqlCommand(_queryCmd, _Conn);
+
+                foreach(SqlParameter sp in lsp)
+                {
+                    sCmd.Parameters.Add(sp);
+                }
+
                 // Default SqlCommand.CommandTimeout value is 30 seconds.
                 //XLiUtilLog.LogMessage(sCmd.CommandTimeout.ToString());
                 sCmd.CommandTimeout = 600;                                  // Make it 10 minutes
