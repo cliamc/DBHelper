@@ -67,6 +67,28 @@ namespace DBHelper.SQLTable
             return dt;
         }
 
+        public List<string> GetJobSerialNumbers(string job)
+        {
+            List<string> sns = new List<string>();
+
+            string sqlCmd = string.Format("select p.SerialNumber from Part p join Job j on p.jID = j.jID where j.Job = '{0}' order by p.SerialNumber", job);
+            dbAccess.SetQueryCmd(sqlCmd);
+            DataTable dt = dbAccess.ReadDbData();
+
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dRow in dt.Rows)
+                {
+                    string sn = dRow[0].ToString();
+                    if (!string.IsNullOrEmpty(sn))
+                    {
+                        sns.Add(sn);
+                    }
+                }
+            }
+            return sns;
+        }
+
         public void UpdateAssocFlag()
         {
             string sqlCmd = string.Format("update Part set TopLevel = 1, Associated = 1, AssociatedTime = '{0}' where SerialNumber = '{1}'", DateTime.Now, this.SerialNumber);
