@@ -17,7 +17,9 @@ namespace DBHelper.SQLTable
         {
             this.JobNum = JN;
 
-            dbAccess.SetConnStr(DBConnectionStr.SQLEpicorConnStr());
+            //dbAccess.SetConnStr(DBConnectionStr.SQLEpicorConnStr());
+            // Always use Epicor production database in order to get current data. This class does read access only and is no harm to data.
+            dbAccess.SetConnStr(DBConnectionStr.ConnStrEpicorProd);
         }
 
         public DataTable SelectTbl()
