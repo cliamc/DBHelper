@@ -11,8 +11,8 @@ namespace DBHelper.SQLTable
     {
         private int jID;
         public string jobNum;                                                     // used if insert
-        public string PartNumber;                                                 // used if insert
-        public string PartVersion;
+        public string PartNumber = "";                                                 // used if insert
+        public string PartVersion = "";
 
         private DateTime CreateDate = DateTime.Today;                              // used if insert
 
@@ -56,6 +56,22 @@ namespace DBHelper.SQLTable
             }
         }
 
+        public string GetJobWithPart(string pn, string ver)
+        {
+            string ret = "";
+
+            string sqlCmd = string.Format("select Job from Job where PartNumber = '{0}' and PartVersion = '{1}'", pn, ver);
+            dbAccess.SetQueryCmd(sqlCmd);
+            object retVal = dbAccess.GetASingleValue();
+
+            if (retVal != null)
+            {
+                ret = retVal.ToString();
+            }
+           
+            return ret;
+        }
+
         public DataTable SelectTbl(string wc)
         {
             string sqlCmd = string.Format("select * from Job where Job = '{0}'", wc);
@@ -82,6 +98,34 @@ namespace DBHelper.SQLTable
             }
 
             return ret;
+        }
+
+        public void UpdatePartVersion()
+        {
+            try
+            {
+                string tVer = GetPartVersion();
+                if (tVer == "") tVer = "0.0";
+                if ( !string.IsNullOrEmpty(this.PartVersion) && IsNumeric(this.PartVersion) && VersionLarger(this.PartVersion, tVer))
+                {
+                    string sqlCmd = string.Format("update Job set PartVersion = {0} where Job = '{1}'", this.PartVersion, this.jobNum);
+                    dbAccess.SetQueryCmd(sqlCmd);
+                    dbAccess.RunSQLcmd();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        
+        // For CheckROHS application; Charles Li, 3/14/2019
+        public void UpdateROHS(string jj, bool rs)
+        {
+            bool chked = true;
+            string sqlCmd = string.Format("update Job set RoHScompliant = '{0}', RoHSchecked = '{1}' where Job = '{2}'", rs, chked, jj);
+            dbAccess.SetQueryCmd(sqlCmd);
+            dbAccess.RunSQLcmd();
         }
 
         private bool UpdateTbl()
@@ -120,6 +164,38 @@ namespace DBHelper.SQLTable
             }
 
             return ret;
+        }
+
+        private string GetPartVersion()
+        {
+            string ret = "";
+            string sqlCmd = string.Format("select PartVersion from Job where Job = '{0}'", this.jobNum);
+            dbAccess.SetQueryCmd(sqlCmd);
+            object retVal = dbAccess.GetASingleValue();
+            if (retVal != null)
+            {
+                ret = (string)retVal;
+            }
+
+            return ret;
+        }
+
+        private bool VersionLarger(string partNumNew, string partNumOld)
+        {
+            float newVer = Convert.ToSingle(partNumNew);
+            float oldVer = Convert.ToSingle(partNumOld);
+            if (newVer > oldVer)
+                return true;
+            else
+                return false;
+        }
+
+        private bool IsNumeric(object Expression)
+        {
+            double retNum;
+
+            bool isNum = Double.TryParse(Convert.ToString(Expression), System.Globalization.NumberStyles.Any, System.Globalization.NumberFormatInfo.InvariantInfo, out retNum);
+            return isNum;
         }
 
     } // class
