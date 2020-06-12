@@ -45,7 +45,7 @@ namespace DBHelper.SQLTable
 
         public DataTable SelectTbl()
         {
-            string sqlCmd = string.Format("select * from AssociatedSubAssembly where pID = {0}", this.pID);
+            string sqlCmd = string.Format("select * from AssociatedSubAssembly where pID = {0} order by AssociatedTime", this.pID);
             dbAccess.SetQueryCmd(sqlCmd);
             DataTable dt = dbAccess.ReadDbData();
 
@@ -61,6 +61,25 @@ namespace DBHelper.SQLTable
             return dt;
         }
 
+        public void InsertRecord(string subSN, string subPN, string subVer)
+        {
+            string sqlCmd = string.Format("insert into AssociatedSubAssembly (pID, SerialNumber, PartNumber, PartVersion, AssociateUser, AssociateComputer)" +
+                                       "values ({0}, '{1}', '{2}', '{3}', '{4}', '{5}')", this.pID, subSN, subPN, subVer, this.UserName, this.ComputerName);
+            dbAccess.SetQueryCmd(sqlCmd);
+            dbAccess.RunSQLcmd();
+        }
+
+        public void UpdateRecord(string subSN, string subVer, string curSN)
+        {
+            // Update the subassembly serial number to the new value
+            string tStampe = DateTime.Now.ToString();
+            string sqlCmd = string.Format("update AssociatedSubAssembly set SerialNumber = '{0}', PartVersion = '{1}', ModifyTime = '{2}', ModifyUser = '{3}', ModifyComputer = '{4}' " +
+                                       "where SerialNumber = '{5}'", subSN, subVer, tStampe, this.UserName, this.ComputerName, curSN);
+            dbAccess.SetQueryCmd(sqlCmd);
+            dbAccess.RunSQLcmd();
+        }
+
+        // Deprecated! 2/22/2019
         public void InsertUpdateRecord(string subSN, string subPN, string subVer)
         {
             string sqlCmd = "";
@@ -79,6 +98,7 @@ namespace DBHelper.SQLTable
             dbAccess.RunSQLcmd();
         }
 
+        // Deprecated! 2/22/2019
         private bool CheckRecordExist(string subPN)
         {
             bool ret = false;
