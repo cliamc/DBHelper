@@ -34,8 +34,13 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>EmpowerHelp\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,21 +51,54 @@
   <ItemGroup>
     <Compile Include="AccessFoxProOLE.cs" />
     <Compile Include="AccessFoxProODBC.cs" />
+    <Compile Include="EmpowerHelp\BOMdata.cs" />
+    <Compile Include="EmpowerHelp\EmpowerItem.cs" />
+    <Compile Include="EmpowerHelp\ItemData.cs" />
+    <Compile Include="FileHelper\FileDir.cs" />
+    <Compile Include="FileHelper\FileLine.cs" />
+    <Compile Include="FileHelper\FileLog.cs" />
+    <Compile Include="FileHelper\FileObj.cs" />
+    <Compile Include="FileHelper\FileObjExcel.cs" />
+    <Compile Include="FileHelper\LineColumn.cs" />
     <Compile Include="FoxProTable\FoxProAmplifs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AccessSQL.cs" />
     <Compile Include="DBConnectionStr.cs" />
+    <Compile Include="SQLDataLoadTbl\PLMDataLoadDatasheets.cs" />
+    <Compile Include="SQLDataLoadTbl\PLMDataLoadDocNoteExceptionRecord.cs" />
+    <Compile Include="SQLDataLoadTbl\PLMDataLoadEngineerDesignDoc.cs" />
+    <Compile Include="SQLDataLoadTbl\PLMDataLoadEngineerDesignNote.cs" />
+    <Compile Include="SQLDataLoadTbl\PLMDataLoadEngineerDocExtType.cs" />
+    <Compile Include="SQLDataLoadTbl\ProdmanBeta.cs" />
+    <Compile Include="SQLDataLoadTbl\ProdmanCurrent.cs" />
+    <Compile Include="SQLDataLoadTbl\ProdmanHistory.cs" />
+    <Compile Include="SQLDataLoadTbl\ProdmanProto.cs" />
     <Compile Include="SQLTable\EpicorPartRev.cs" />
+    <Compile Include="SQLTable\EpicorSerialMatch.cs" />
     <Compile Include="SQLTable\EpicorVJobInformation.cs" />
     <Compile Include="SQLTable\EpicorJobMtl.cs" />
     <Compile Include="SQLTable\EpicorVPartSearch.cs" />
     <Compile Include="SQLTable\EpicorVPartWhereUsedFGAllRev.cs" />
     <Compile Include="SQLTable\MfgDataApplicationParam.cs" />
     <Compile Include="SQLTable\MfgDataAssociatedSubAssembly.cs" />
+    <Compile Include="SQLDataLoadTbl\MfgDataDevAMLbase.cs" />
     <Compile Include="SQLTable\MfgDataNotSerializedSub.cs" />
+    <Compile Include="SQLTable\MfgDataSubPart.cs" />
     <Compile Include="SQLTable\MfgDataTraceRecord.cs" />
     <Compile Include="SQLTable\MfgDataPart.cs" />
     <Compile Include="SQLTable\MfgDataJob.cs" />
+    <Compile Include="SQLDataLoadTbl\PLMDataLoadAML.cs" />
+    <Compile Include="SQLDataLoadTbl\PLMDataLoadBOMwithLifeCycle.cs" />
+    <Compile Include="SQLDataLoadTbl\PLMDataLoadECOdata.cs" />
+    <Compile Include="SQLDataLoadTbl\PLMDataLoadItemMaster.cs" />
+    <Compile Include="SQLTable\PLMDataLoadMPNDataSheet.cs" />
+    <Compile Include="SQLTable\PLMDataLoadMPNImageSet.cs" />
+    <Compile Include="SQLTable\PLMDataLoadMPNOffer.cs" />
+    <Compile Include="SQLTable\PLMDataLoadMPNPrice.cs" />
+    <Compile Include="SQLTable\PLMDataLoadMPNSpecs.cs" />
+    <Compile Include="SQLTable\TestDataTestOps.cs" />
+    <Compile Include="SQLTable\TestDataTestTracker.cs" />
+    <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
