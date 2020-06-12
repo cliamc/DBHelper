@@ -32,5 +32,15 @@ namespace DBHelper.SQLTable
             return dt;
         }
 
-    }
-}
+        public string GetSubRevision(string PN)
+        {
+            string sqlCmd = string.Format("select RevisionNum from JobMtl where JobNum = '{0}' and PartNum = '{1}'", this.JobNum, PN);
+
+            dbAccess.SetQueryCmd(sqlCmd);
+            string rt = (string)dbAccess.GetASingleValue();
+
+            return rt;
+        }
+
+    } // class
+} // namespace
