@@ -29,5 +29,14 @@ namespace DBHelper.SQLTable
             return retVal;
         }
 
+        public string SelectApplicationParam(string PName)
+        {
+            string sqlCmd = string.Format("select ParamValue from ApplicationParam where Application = '{0}' and ParamName = '{1}'", this.AppName, PName);
+            dbAccess.SetQueryCmd(sqlCmd);
+            string retVal = (string)dbAccess.GetASingleValue();
+
+            return retVal;
+        }
+
     } // class
 }
