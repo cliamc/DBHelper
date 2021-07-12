@@ -33,6 +33,23 @@ namespace DBHelper.SQLTable
             return retVal;
         }
 
+        public bool IsSubGroupAll(string pn)
+        {
+            bool retVal = false;
+
+            ///            string sqlCmd = string.Format("select * from v_PartSearch_Class where PartNum = '{0}' and ([Group] = 'SUB' or ClassID = 'SUB') and Status = 'Active'", pn);
+            string sqlCmd = string.Format("select * from v_PartSearch_Class where PartNum = '{0}' and ([Group] IN ('SUB', 'SUBACL', 'SUBDCL', 'SUBOTH', 'SUBPOW') or ClassID = 'SUB')", pn);
+
+            dbAccess.SetQueryCmd(sqlCmd);
+            object ob = dbAccess.GetASingleValue();
+            if (ob != null)
+            {
+                retVal = true;
+            }
+
+            return retVal;
+        }
+
         // Return true means the part number given is a subassembly component
         public bool CheckSubRohs(string pn, out bool rohs)
         {
