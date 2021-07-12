@@ -20,8 +20,18 @@ namespace DBHelper.EmpowerHelp
         public string ProtoType;        // Status; bool
     }
 
+    public struct PLDdata
+    {
+        public string Program;
+        public string Filename1;
+        public string Refdes1;
+        public string Filename2;
+        public string Refdes2;
+    }
+
     public class ItemData
     {
+        // For Print Label application
         const string RevLetter = "BASE REVISION";
         const string EMC = "REG_EMC COMPLIANT";
         const string Ethercat = "REG_ETHERCAT COMPLIANT";
@@ -36,17 +46,40 @@ namespace DBHelper.EmpowerHelp
         const string trueValYes = "Yes";
         const string falseValNo = "No";
 
-
         public LabelField lf = new LabelField();
+
+        // For DocViewer application
+        public List<string> partDocs = new List<string>();
+
+        // For PLDDevicePI application
+        const string PLD_Program = "PLD PROGRAM";
+        const string PLD_Filename1 = "PLD_FILENAME_1";
+        const string PLD_Refdes1 = "PLD_REFDES_1";
+        const string PLD_Filename2 = "PLD_FILENAME_2";
+        const string PLD_Refdes2 = "PLD_REFDES_2";
+
+        public PLDdata pd = new PLDdata();
+
+        // Class properties for all
         private string wholeData = "";
         JObject jo = new JObject();
-
-        public List<string> partDocs = new List<string>();
 
         public ItemData(string wd)
         {
             this.wholeData = wd;
             jo = JObject.Parse(wd);
+        }
+
+        public bool CheckSuccess()
+        {
+            bool ret = false;
+            string tmp = jo["Success"].ToString();
+            if (string.Compare(tmp, "true", true) == 0)
+            {
+                ret = true;
+            }
+
+            return ret;
         }
 
         public bool SetupField()                            // Used in PrintLabel application. cli, 5/21/2020
@@ -68,7 +101,7 @@ namespace DBHelper.EmpowerHelp
                 while (jo["Attributes"][ct].Next.HasValues)
                 {
                     string name = jo["Attributes"][ct].Next["Name"].ToString();
-                    string value = jo["Attributes"][ct].Next["Value"].ToString();
+                    string value = jo["Attributes"][ct].Next["Value"].ToString().Trim();
 
                     if (name.Equals(RevLetter))
                     {
@@ -186,6 +219,56 @@ namespace DBHelper.EmpowerHelp
 
             return ret;
         } // method
+
+        /* For PLDDevicePI application */
+        public bool SetupPLD()
+        {
+            bool ret = false;
+
+            if (jo["Attributes"].HasValues)
+            {
+                ret = true;
+
+                int ct = 0;
+                while (jo["Attributes"][ct].Next.HasValues)
+                {
+                    string name = jo["Attributes"][ct].Next["Name"].ToString();
+                    string value = jo["Attributes"][ct].Next["Value"].ToString().Trim();
+
+                    if (name.Equals(PLD_Program))
+                    {
+                        pd.Program = value;
+                    }
+                    else if (name.Equals(PLD_Filename1))
+                    {
+                        pd.Filename1 = value;
+                    }
+                    else if (name.Equals(PLD_Refdes1))
+                    {
+                        pd.Refdes1 = value;
+                    }
+                    else if (name.Equals(PLD_Filename2))
+                    {
+                        pd.Filename2 = value;
+                    }
+                    else if (name.Equals(PLD_Refdes2))
+                    {
+                        pd.Refdes2 = value;
+                    }
+
+                    // Check the last attribute returned from Empower, then exit
+                    string lastName = jo["Attributes"].Last["Name"].ToString();
+                    if (lastName.Equals(name))
+                    {
+                        break;
+                    }
+
+                    ct++;
+                }
+            }
+
+            return ret;
+        }
 
     } // class
 }
