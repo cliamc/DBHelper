@@ -147,11 +147,11 @@ namespace DBHelper.SQLTable
             return ret;
         }
 
-        public bool CheckRecordExist(string part)
+        public bool CheckRecordExist(string part, string rev)
         {
             bool ret = false;
 
-            string sqlCmd = string.Format("select [Part Number] from ItemMaster where [Part Number] = '{0}'", part);
+            string sqlCmd = string.Format("select [Part Number] from ItemMaster where [Part Number] = '{0}' and Revision = '{1}'", part, rev);
             dbAccess.SetQueryCmd(sqlCmd);
             object retVal = dbAccess.GetASingleValue();
             if (retVal != null)
