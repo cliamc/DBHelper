@@ -9,6 +9,7 @@ namespace DBHelper.SQLDataLoadTbl
         public string Type;
         public string ExceptionRec;
         public string PartNumber;
+        public string Rev;
     }
 
     public class PLMDataLoadDocNoteExceptionRecord
@@ -26,7 +27,7 @@ namespace DBHelper.SQLDataLoadTbl
 
             try
             {
-                string sqlCmd = string.Format("insert into DocNoteExceptionRecord ([Type], [ExceptionRec], PartNumber) values (@Type, @ExceptionRec, @PartNumber)");
+                string sqlCmd = string.Format("insert into DocExceptionRecord ([Type], [ExceptionRec], PartNumber, Revision) values (@Type, @ExceptionRec, @PartNumber, @Rev)");
                 dbAccess.SetQueryCmd(sqlCmd);
 
                 List<SqlParameter> lsp = new List<SqlParameter>();
@@ -42,6 +43,10 @@ namespace DBHelper.SQLDataLoadTbl
                 sp2.ParameterName = "@PartNumber";
                 sp2.Value = er.PartNumber;
                 lsp.Add(sp2);
+                SqlParameter sp3 = new SqlParameter();
+                sp3.ParameterName = "@Rev";
+                sp3.Value = er.Rev;
+                lsp.Add(sp3);
 
                 dbAccess.RunSQLcmdParam(lsp);
 
