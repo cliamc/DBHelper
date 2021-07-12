@@ -21,7 +21,6 @@ namespace DBHelper
                 string second = serialNumber.Substring(6, 4);
                 string dash = serialNumber.Substring(5, 1);
 
-
                 fail = dash != "-" || !first.All(char.IsNumber) || !second.All(char.IsNumber) || first.Length != 5 || second.Length != 4;
 
                 if (fail)
