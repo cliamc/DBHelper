@@ -61,6 +61,16 @@ namespace DBHelper.SQLTable
             return dt;
         }
 
+        public DataTable GetTopLevelMarryRecords(string tlsn)
+        {
+            string sqlCmd = string.Format("select a.asID, a.pID, a.SerialNumber, a.PartNumber, a.PartVersion, a.AssociatedTime, a.AssociateUser, a.AssociateComputer " +
+                                          "from AssociatedSubAssembly a join Part p on a.pID = p.pID where p.SerialNumber like '{0}' order by a.AssociatedTime", tlsn);
+            dbAccess.SetQueryCmd(sqlCmd);
+            DataTable dt = dbAccess.ReadDbData();
+
+            return dt;
+        }
+
         public void InsertRecord(string subSN, string subPN, string subVer)
         {
             string sqlCmd = string.Format("insert into AssociatedSubAssembly (pID, SerialNumber, PartNumber, PartVersion, AssociateUser, AssociateComputer)" +
@@ -146,6 +156,15 @@ namespace DBHelper.SQLTable
                 ret = (string)retRec;
 
             return ret;
+        }
+
+        /* Unmarry - Undo Association operation method, 8/25/2020
+         */
+        public void DeleteRecordUnmarry(string subSN)
+        {
+            string sqlCmd = string.Format("delete from AssociatedSubAssembly where SerialNumber = '{0}'", subSN);
+            dbAccess.SetQueryCmd(sqlCmd);
+            dbAccess.RunSQLcmd();
         }
 
     } // class
