@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace DBHelper.SQLTable
@@ -20,6 +21,15 @@ namespace DBHelper.SQLTable
         public PLMDataLoadAML()
         {
             dbAccess.SetConnStr(DBConnectionStr.ConnectionStrPLMDataLoad);
+        }
+
+        public DataTable SelectTbl()
+        {
+            string sqlCmd = string.Format("select * from AML");
+            dbAccess.SetQueryCmd(sqlCmd);
+            DataTable retVal = dbAccess.ReadDbData();
+
+            return retVal;
         }
 
         public bool InsertTbl(AMLdata er)
