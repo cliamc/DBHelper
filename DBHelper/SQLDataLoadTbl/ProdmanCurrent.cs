@@ -18,7 +18,9 @@ namespace DBHelper.SQLDataLoadTbl
 
         public DataTable SelectNotes()
         {
-            string sqlCmd = string.Format("select partnumber, [version], notes, testnotes, fanotes, gennotes from [current]");
+            //string sqlCmd = string.Format("select partnumber, [version], notes, testnotes, fanotes, gennotes from [current]");
+            string sqlCmd = string.Format("select partnumber, [version], notes, testnotes from [current]");
+
             dbAccess.SetQueryCmd(sqlCmd);
             DataTable retVal = dbAccess.ReadDbData();
 
