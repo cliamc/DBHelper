@@ -96,6 +96,13 @@ namespace DBHelper.SQLTable
             dbAccess.RunSQLcmd();
         }
 
+        public void UpdateAssocFlagUnmarry()
+        {
+            string sqlCmd = string.Format("update Part set TopLevel = 0, Associated = 0, AssociatedTime = NULL where SerialNumber = '{0}'", this.SerialNumber);
+            dbAccess.SetQueryCmd(sqlCmd);
+            dbAccess.RunSQLcmd();
+        }
+
         public bool InsertSerialRecord(string[] sNumbers)
         {
             bool ret = false;
