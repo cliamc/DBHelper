@@ -32,9 +32,13 @@ namespace DBHelper.SQLTable
             {
                 if (CheckRecordExist(er.ECONumber))
                 {
+                    //string sqlCmd = string.Format("Update ECO_AllCompleted set Description = @DOC, Reason = @Reason, [Design Notes] = @DN," +
+                    //                              " [Potential Internal Impact] = @EPII, [Final Material Disposition Notes] = @FMDN,  [Special Instructions] = @SI" +
+                    //                              " where [ECO Number] = @ECONumber");
                     string sqlCmd = string.Format("Update ECO_AllCompleted set Description = @DOC, Reason = @Reason, [Design Notes] = @DN," +
-                                                  " [Potential Internal Impact] = @EPII, [Final Material Disposition Notes] = @FMDN,  [Special Instructions] = @SI" +
-                                                  " where [ECO Number] = @ECONumber");
+                              " [Potential Internal Impact] = @EPII, [Final Material Disposition Notes] = @FMDN,  [Special Instructions] = @SI" +
+                              " where [ECO Number] = @ECONumber");
+
                     dbAccess.SetQueryCmd(sqlCmd);
 
                     List<SqlParameter> lsp = new List<SqlParameter>();
@@ -168,7 +172,7 @@ namespace DBHelper.SQLTable
 
         public string GetChangeDescription(string eco)
         {
-            string sqlCmd = string.Format("select ChangeDescription from ECOdata where ECO = '{0}'", eco);
+            string sqlCmd = string.Format("select Description from ECO_AllCompleted where [ECO Number] = '{0}'", eco);
             dbAccess.SetQueryCmd(sqlCmd);
             object retVal = dbAccess.GetASingleValue();
             if (retVal != null)
