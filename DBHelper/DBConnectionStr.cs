@@ -15,7 +15,7 @@ namespace DBHelper
 
         private static string ConnectionStrProdmanData = "Data Source=amc-sql01;Initial Catalog=AMC_Prodman;Persist Security Info=True;User ID=cliservice;Password=n3wCopper24";
 
-        public const string ConnectionStrPLMDataLoad = @"Data Source=amc-plm-01;Initial Catalog=DataLoad;Persist Security Info=True;User ID=plmload;Password='=reeWing28'";
+        public const string ConnectionStrPLMDataLoad = @"Data Source=amc-plm-sql\omnifyplm;Initial Catalog=DataLoad;Persist Security Info=True;User ID=plmload;Password='=reeWing28'";
         /*** harlequin - prodmansql / pr0dman5ux ***/
 
         public const string ConnStrEpicorProd = "Data Source=bitis;Initial Catalog=epicor905;Persist Security Info=True;User ID=e9prog;Password=e9prog";
@@ -35,9 +35,8 @@ namespace DBHelper
         public static string ConnStrMfgData()
         {
 #if DEBUG
-            return ConnectionStrMfgData;
-
-            //return ConnectionStrMfgDataDev;
+            return ConnectionStrMfgDataDev;
+            //return ConnectionStrMfgData;
 #else
             return ConnectionStrMfgData;
 #endif
