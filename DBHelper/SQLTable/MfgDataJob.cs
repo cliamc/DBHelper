@@ -72,6 +72,23 @@ namespace DBHelper.SQLTable
             return ret;
         }
 
+        public bool GetPNandRev(string job, ref string pn, ref string rev)
+        {
+            bool ret = false;
+
+            string sqlCmd = string.Format("select PartNumber, PartVersion from Job where Job = '{0}'", job);
+            dbAccess.SetQueryCmd(sqlCmd);
+            DataTable retVal = dbAccess.ReadDbData();
+            if (retVal.Rows.Count != 0)
+            {
+                pn = retVal.Rows[0]["PartNumber"].ToString();
+                rev = retVal.Rows[0]["PartVersion"].ToString();
+                ret = true;
+            }
+
+            return ret;
+        }
+
         public DataTable SelectTbl(string wc)
         {
             string sqlCmd = string.Format("select * from Job where Job = '{0}'", wc);
