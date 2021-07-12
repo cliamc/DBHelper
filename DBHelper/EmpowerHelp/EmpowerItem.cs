@@ -6,8 +6,12 @@ namespace DBHelper.EmpowerHelp
 {
     public class EmpowerItem
     {
-        const string TestURL = "https://amc-plm-01.a-m-c.com/Omnify7Test/Apps/Toolkit/EmpowerConsumer.ashx?op=get-item&";
-        const string ProdURL = "https://amc-plm-01.a-m-c.com/Omnify7/Apps/Toolkit/EmpowerConsumer.ashx?op=get-item&";
+        const string TestURL = "http://amc-plm-app.a-m-c.com/Omnify7Test/Apps/Toolkit/EmpowerConsumer.ashx?op=get-item&";
+        const string ProdURL = "http://amc-plm-app.a-m-c.com/Omnify7/Apps/Toolkit/EmpowerConsumer.ashx?op=get-item&";
+
+        const string TestURLbom = "http://amc-plm-app.a-m-c.com/Omnify7Test/Apps/Toolkit/EmpowerConsumer.ashx?op=get-bom&";
+        const string ProdURLbom = "http://amc-plm-app.a-m-c.com/Omnify7/Apps/Toolkit/EmpowerConsumer.ashx?op=get-bom&";
+
         // Request parameter sample: pn=100A25M&rev=0.01
         // DR100RE20A8BDCC  0.04
 
@@ -41,7 +45,19 @@ namespace DBHelper.EmpowerHelp
             this.Result = client.DownloadString(url);
         }
 
-        public void SendRequest(string handler)                                     /// e.g. "https://amc-plm-01.a-m-c.com/Omnify7/Apps/Toolkit/EmpowerConsumer.ashx?op=get-item&"
+        public void SendRequestBOM()
+        {
+            string url = "";
+#if DEBUG
+            url = TestURLbom;
+#else
+            url = ProdURLbom;
+#endif
+            url = url + "pn=" + this.PartNumber + "&rev=" + this.Revision;
+            this.Result = client.DownloadString(url);
+        }
+
+        public void SendRequest(string handler)                                     /// e.g. "http://amc-plm-app.a-m-c.com/Omnify7/Apps/Toolkit/EmpowerConsumer.ashx?op=get-item&"
         {
             string url = handler + "pn=" + this.PartNumber + "&rev=" + this.Revision;
 
@@ -51,7 +67,7 @@ namespace DBHelper.EmpowerHelp
             this.Result = client.DownloadString(url);
         }
 
-        public void SendItemRequestAsync(string handler)                                     /// e.g. "https://amc-plm-01.a-m-c.com/Omnify7/Apps/Toolkit/EmpowerConsumer.ashx?op=get-item&"
+        public void SendItemRequestAsync(string handler)                                     /// e.g. "http://amc-plm-app.a-m-c.com/Omnify7/Apps/Toolkit/EmpowerConsumer.ashx?op=get-item&"
         {
             // Need to do URL-encoding to handle '+' in front of some part numbers. cli, 5/21/2020
             string pnEnc = HttpUtility.UrlEncode(this.PartNumber);
@@ -65,8 +81,8 @@ namespace DBHelper.EmpowerHelp
             client.DownloadStringAsync(iUri);
         }
 
-        public void SendBOMRequestAsync(string handler)                                     // e.g. "https://amc-plm-01.a-m-c.com/Omnify7/Apps/Toolkit/EmpowerConsumer.ashx?op=get-bom&"
-        {                                                                                   //       https://amc-plm-01.a-m-c.com/Omnify7Test/Apps/Toolkit/EmpowerConsumer.ashx?op=get-bom&pn=100A25M&rev=0.01
+        public void SendBOMRequestAsync(string handler)                                     // e.g. "http://amc-plm-app.a-m-c.com/Omnify7/Apps/Toolkit/EmpowerConsumer.ashx?op=get-bom&"
+        {                                                                                   //       http://amc-plm-app.a-m-c.com/Omnify7Test/Apps/Toolkit/EmpowerConsumer.ashx?op=get-bom&pn=100A25M&rev=0.01
             // Need to do URL-encoding to handle '+' in front of some part numbers. cli, 5/21/2020
             string pnEnc = HttpUtility.UrlEncode(this.PartNumber);
             string url = handler + "pn=" + pnEnc + "&rev=" + this.Revision;
