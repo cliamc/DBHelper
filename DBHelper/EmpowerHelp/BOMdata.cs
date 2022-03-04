@@ -93,21 +93,21 @@ namespace DBHelper.EmpowerHelp
                         string cpn = jo["BOMs"][ct]["ChildPN"].ToString();
                         string Refdes = jo["BOMs"][ct]["Refdes"].ToString();
 
-                        if (!String.IsNullOrEmpty(rd1) && Refdes.Contains(rd1))
+                        //if (!String.IsNullOrEmpty(rd1) && Refdes.Contains(rd1))
                         //if (string.Equals(Refdes, rd1, StringComparison.OrdinalIgnoreCase))
+                        if (Util.FindTokenInCommaString(rd1, Refdes))
                         {
                             this.pp.ChildPN1 = cpn;
                             ret = true;
-
                             //break;
                         }
                         //else
                         //if (string.Equals(Refdes, rd2, StringComparison.OrdinalIgnoreCase))
-                        if (!String.IsNullOrEmpty(rd2) && Refdes.Contains(rd2))
+                        //if (!String.IsNullOrEmpty(rd2) && Refdes.Contains(rd2))
+                        if (Util.FindTokenInCommaString(rd2, Refdes))
                         {
                             this.pp.ChildPN2 = cpn;
                             ret = true;
-
                             //break;
                         }
 
