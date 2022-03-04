@@ -61,10 +61,20 @@ namespace DBHelper.SQLTable
             return dt;
         }
 
-        public DataTable GetTopLevelMarryRecords(string tlsn)
+        public DataTable GetTopLevelMarryRecords(string tlsn)                           // Used in RemoveAssociationForm
         {
             string sqlCmd = string.Format("select a.asID, a.pID, a.SerialNumber, a.PartNumber, a.PartVersion, a.AssociatedTime, a.AssociateUser, a.AssociateComputer " +
                                           "from AssociatedSubAssembly a join Part p on a.pID = p.pID where p.SerialNumber like '{0}' order by a.AssociatedTime", tlsn);
+            dbAccess.SetQueryCmd(sqlCmd);
+            DataTable dt = dbAccess.ReadDbData();
+
+            return dt;
+        }
+
+        public DataTable GetJoblMarruedRecords(string job)                           // Used in ViewAssociationForm
+        {
+            string sqlCmd = string.Format("select p.SerialNumber, a.SerialNumber, a.AssociatedTime, a.AssociateUser, a.AssociateComputer from AssociatedSubAssembly a" +
+                                          " join Part p on a.pID = p.pID where p.SerialNumber like '{0}%' order by p.SerialNumber", job);
             dbAccess.SetQueryCmd(sqlCmd);
             DataTable dt = dbAccess.ReadDbData();
 
@@ -157,6 +167,8 @@ namespace DBHelper.SQLTable
 
             return ret;
         }
+
+
 
         /* Unmarry - Undo Association operation method, 8/25/2020
          */
