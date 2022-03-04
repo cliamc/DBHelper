@@ -26,14 +26,15 @@ namespace DBHelper.SQLTable
             dbAccess.SetConnStr(DBConnectionStr.ConnStrMfgData());
         }
 
-        public MfgDataJob(string wc, string pn, string ver, int ct)
+        public MfgDataJob(string wc, string pn, string ver, int ct, int qty)
         {
             this.jobNum = wc;
             this.PartNumber = pn;
             this.PartVersion = ver;
 
-            // How to use Quantity is TBD
+            // How to use Quantity is TBD; It is used in handling Scrap process, 8/26/2021
             this.InProcessCt = ct;
+            this.Quantity = qty;
 
             dbAccess.SetConnStr(DBConnectionStr.ConnStrMfgData());
         }
@@ -55,6 +56,25 @@ namespace DBHelper.SQLTable
                 return -1;
             }
         }
+
+        public int GetQuantity(string wc)
+        {
+            string sqlCmd = string.Format("select Quantity from Job where Job = '{0}'", wc);
+
+            dbAccess.SetQueryCmd(sqlCmd);
+            object retVal = dbAccess.GetASingleValue();
+
+            if (retVal != null)
+            {
+                this.Quantity = (int)retVal;
+                return (int)retVal;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
 
         public string GetJobWithPart(string pn, string ver)
         {
@@ -135,7 +155,23 @@ namespace DBHelper.SQLTable
                 throw;
             }
         }
-        
+
+        public bool GetRoHS(string wc)
+        {
+            bool ret = false;
+
+            string sqlCmd = string.Format("select RoHScompliant from Job where Job = '{0}'", wc);
+            dbAccess.SetQueryCmd(sqlCmd);
+            object dt = dbAccess.GetASingleValue();
+
+            if (dt != null)
+            {
+                ret = (bool)dt;
+            }
+
+            return ret;
+        }
+
         // For CheckROHS application; Charles Li, 3/14/2019
         public void UpdateROHS(string jj, bool rs)
         {
@@ -158,8 +194,8 @@ namespace DBHelper.SQLTable
         {
             bool ret = false;
 
-            string sqlCmd = string.Format("insert into Job (Job, PartNumber, PartVersion, CreateUser, CreateComputer, InProcessCt) values ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}')",
-                                           this.jobNum, this.PartNumber, this.PartVersion, Environment.UserName, Environment.MachineName, this.InProcessCt.ToString() );
+            string sqlCmd = string.Format("insert into Job (Job, PartNumber, PartVersion, CreateUser, CreateComputer, Quantity, InProcessCt) values ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}')",
+                                           this.jobNum, this.PartNumber, this.PartVersion, Environment.UserName, Environment.MachineName, this.Quantity.ToString(), this.InProcessCt.ToString() );
             dbAccess.SetQueryCmd(sqlCmd);
             dbAccess.RunSQLcmd();
 
