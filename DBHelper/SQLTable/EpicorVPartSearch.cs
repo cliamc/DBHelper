@@ -16,6 +16,22 @@ namespace DBHelper.SQLTable
             dbAccess.SetConnStr(DBConnectionStr.SQLEpicorConnStr());
         }
 
+        public bool IsActive(string pn)
+        {
+            bool retVal = false;
+
+            string sqlCmd = string.Format("select Status from v_PartSearch_Class where PartNum = '{0}'", pn);
+
+            dbAccess.SetQueryCmd(sqlCmd);
+            string ob = (string)dbAccess.GetASingleValue();
+            if (ob.Equals("Active", StringComparison.OrdinalIgnoreCase))
+            {
+                retVal = true;
+            }
+
+            return retVal;
+        }
+
         public bool IsSubGroup(string pn)
         {
             bool retVal = false;
