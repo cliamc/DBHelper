@@ -29,6 +29,12 @@ namespace DBHelper.EmpowerHelp
         public string Refdes2;
     }
 
+    public struct ItemDoc
+    {
+        public string dtype;
+        public string dfile;
+    }
+
     public class ItemData
     {
         // For Print Label application
@@ -44,12 +50,13 @@ namespace DBHelper.EmpowerHelp
         const string trueVal = "TRUE";
         const string falseVal = "FALSE";
         const string trueValYes = "Yes";
+        const string trueValOne = "1";
         const string falseValNo = "No";
 
         public LabelField lf = new LabelField();
 
         // For DocViewer application
-        public List<string> partDocs = new List<string>();
+        public List<ItemDoc> partDocs = new List<ItemDoc>();
 
         // For PLDDevicePI application
         const string PLD_Program = "PLD PROGRAM";
@@ -178,13 +185,14 @@ namespace DBHelper.EmpowerHelp
         {
             bool ret = false;
             // TRUE or Yes
-            if (token.Equals(trueVal, StringComparison.OrdinalIgnoreCase) || token.Equals(trueValYes, StringComparison.OrdinalIgnoreCase))
+            if (token.Equals(trueVal, StringComparison.OrdinalIgnoreCase)
+             || token.Equals(trueValYes, StringComparison.OrdinalIgnoreCase) || token.Equals(trueValOne, StringComparison.OrdinalIgnoreCase))
                 ret = true;
 
             return ret;
         }
 
-        public bool SetupViewDoc()                                  // Used in DocViewer application. cli, 5/21/2020
+        public bool SetupViewDoc()                                  // Used for eDrawings, PCB, & Schematic buttons in DocViewer application. cli, 5/21/2020
         {
             bool ret = false;
             string tmp = jo["Success"].ToString();
@@ -199,17 +207,48 @@ namespace DBHelper.EmpowerHelp
                     ret = true;
 
                     int ct = 0;
-
+                    ItemDoc idoc = new ItemDoc();
                     while (jo["Documents"][ct].HasValues)
                     {
                         string fpath = jo["Documents"][ct]["FilePath"].ToString();
-                        partDocs.Add(fpath);
+                        string ftype = jo["Documents"][ct]["Type"].ToString();
+                        string err = jo["Documents"][ct]["Error"].ToString();
+
+                        if (String.IsNullOrEmpty(fpath) && !String.IsNullOrEmpty(err))
+                        {
+                            // Get the file name & path from the error message text
+                            int ind = err.IndexOf('\'');
+                            string t1 = err.Substring(ind+1);
+                            ind = t1.IndexOf('\'');
+                            string t2 = t1.Substring(0, ind);
+
+                            idoc.dtype = ftype;
+                            idoc.dfile = t2;
+                            partDocs.Add(idoc);
+                        }
+                        else
+                        {
+                            idoc.dtype = ftype;
+                            idoc.dfile = fpath;
+                            partDocs.Add(idoc);
+                        }
 
                         // Check the last document pathAndFilename returned from Empower, then exit
                         string lastOne = jo["Documents"].Last["FilePath"].ToString();
-                        if (lastOne.Equals(fpath))
+                        if (String.IsNullOrEmpty(lastOne))
                         {
-                            break;
+                            string lastErr = jo["Documents"].Last["Error"].ToString();
+                            if (lastErr.Equals(err))
+                            {
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            if (lastOne.Equals(fpath))
+                            {
+                                break;
+                            }
                         }
 
                         ct++;
@@ -268,6 +307,75 @@ namespace DBHelper.EmpowerHelp
             }
 
             return ret;
+        }
+
+        public Tuple<string, string> GetNoteFileNames()
+        {
+            if (CheckSuccess())
+            {
+                string manuNote = "";
+                string testNote = "";
+
+                if (jo["Documents"].HasValues)
+                {
+                    int ct = 0;
+                    while (jo["Documents"][ct].HasValues)
+                    {
+                        string fpath = jo["Documents"][ct]["FilePath"].ToString();
+                        string goodName = "";
+                        string ftype = jo["Documents"][ct]["Type"].ToString();
+                        string err = jo["Documents"][ct]["Error"].ToString();
+
+                        if (String.IsNullOrEmpty(fpath) && !String.IsNullOrEmpty(err))
+                        {
+                            // Get the file name & path from the error message text
+                            int ind = err.IndexOf('\'');
+                            string t1 = err.Substring(ind + 1);
+                            ind = t1.IndexOf('\'');
+                            goodName = t1.Substring(0, ind);
+                        }
+                        else
+                        {
+                            goodName = fpath;
+                        }
+
+                        if (ftype.Equals("Manufacturing Notes"))
+                        {
+                            manuNote = goodName;
+                        }
+                        else if (ftype.Equals("Test Notes"))
+                        {
+                            testNote = goodName;
+                        }
+
+                        // Check the last document pathAndFilename returned from Empower, then exit
+                        string lastOne = jo["Documents"].Last["FilePath"].ToString();
+                        if (String.IsNullOrEmpty(lastOne))
+                        {
+                            string lastErr = jo["Documents"].Last["Error"].ToString();
+                            if (lastErr.Equals(err))
+                            {
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            if (lastOne.Equals(fpath))
+                            {
+                                break;
+                            }
+                        }
+
+                        ct++;
+                    } // while loop
+                } // if
+
+                return new Tuple<string, string>(manuNote, testNote);
+            }
+            else
+            {
+                return new Tuple<string, string>("", "");
+            }
         }
 
     } // class
