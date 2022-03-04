@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace DBHelper.SQLTable
 {
+    public struct MaterialAndQty
+    {
+        public string material;
+        public int qty;
+    }
 
     public class EpicorVPartWhereUsedFGAllRev
     {
@@ -15,8 +20,10 @@ namespace DBHelper.SQLTable
         private string partNum = "";
         private string partRev = "";
 
-        public List<string> AllParts = new List<string>();
+        //public List<string> AllParts = new List<string>();
         private List<string> uniqueParts = new List<string>();
+
+        public List<MaterialAndQty> materialList = new List<MaterialAndQty>();
 
         public EpicorVPartWhereUsedFGAllRev(string pn, string ver)
         {
@@ -44,11 +51,17 @@ namespace DBHelper.SQLTable
                     int tfloat = Convert.ToInt32(intPortion);
                     string tmp = (string)dRow["MtlPartNum"];
 
+                    MaterialAndQty maq = new MaterialAndQty();
+                    maq.material = tmp;
+                    maq.qty = tfloat;
+                    materialList.Add(maq);
+
                     uniqueParts.Add(tmp);
-                    for (int i = 1; i <= tfloat; i++)
-                    {
-                        AllParts.Add(tmp);
-                    }
+
+                    //for (int i = 1; i <= tfloat; i++)
+                    //{
+                    //    AllParts.Add(tmp);
+                    //}
                 }
             }
         }
