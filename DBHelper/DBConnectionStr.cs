@@ -21,6 +21,9 @@ namespace DBHelper
         public const string ConnStrEpicorProd = "Data Source=bitis;Initial Catalog=epicor905;Persist Security Info=True;User ID=e9prog;Password=e9prog";
         const string ConnStrEpicorTest = "Data Source=bitis;Initial Catalog=epicortest905;Persist Security Info=True;User ID=e9prog;Password=e9prog";
 
+        public const string ConnStrOmnifyProd = "Data Source=amc-plm-sql\\omnifyplm;Initial Catalog=Omnify7Prod;Persist Security Info=True;User ID=EpicorLinkedServerUser;Password=EpicorLinkedServerUser";
+        const string ConnStrOmnifyTest = "Data Source=amc-plm-sql\\omnifyplm;Initial Catalog=Omnify7Test;Persist Security Info=True;User ID=EpicorLinkedServerUser;Password=EpicorLinkedServerUser";
+
         /******* Stop developing code for FoxPro *******/
         private static string OLEFoxProProd = @"Data Source=\\BOA\Production\Prodman.vfp\DATABASE\{0}.dbf;Provider=VFPOLEDB.1;";
         private static string OLEFoxProDev = @"Data Source=\\BOA\Production\Prodman.dev\DATABASE\{0}.dbf;Provider=VFPOLEDB.1;";
@@ -35,8 +38,8 @@ namespace DBHelper
         public static string ConnStrMfgData()
         {
 #if DEBUG
-            return ConnectionStrMfgDataDev;
-            //return ConnectionStrMfgData;
+            //return ConnectionStrMfgDataDev;
+            return ConnectionStrMfgData;
 #else
             return ConnectionStrMfgData;
 #endif
@@ -47,11 +50,6 @@ namespace DBHelper
             return ConnectionStrTestData;
         }
 
-        public static string ConnStrProdmanData()
-        {
-            return ConnectionStrProdmanData;
-        }
-
         public static string SQLEpicorConnStr()
         {
 #if DEBUG
@@ -60,6 +58,21 @@ namespace DBHelper
 #else
             return ConnStrEpicorProd;
 #endif
+        }
+
+        public static string SQLOmnifyConnStr()
+        {
+#if DEBUG
+            return ConnStrOmnifyTest;
+#else
+            return ConnStrOmnifyTest;                           // Test start Empower Item page; 7/26/2021
+            //return ConnStrOmnifyProd;
+#endif
+        }
+
+        public static string ConnStrProdmanData()
+        {
+            return ConnectionStrProdmanData;
         }
 
         /*-------*/
