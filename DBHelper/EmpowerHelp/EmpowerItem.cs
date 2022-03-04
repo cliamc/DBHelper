@@ -33,7 +33,8 @@ namespace DBHelper.EmpowerHelp
         {
             string url = "";
 #if DEBUG
-            url = TestURL;
+            //url = TestURL;
+            url = ProdURL;
 #else
             url = ProdURL;
 #endif
@@ -49,7 +50,8 @@ namespace DBHelper.EmpowerHelp
         {
             string url = "";
 #if DEBUG
-            url = TestURLbom;
+            //url = TestURLbom;
+            url = ProdURLbom;
 #else
             url = ProdURLbom;
 #endif
