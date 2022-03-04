@@ -73,6 +73,7 @@
     <Compile Include="SQLDataLoadTbl\ProdmanCurrent.cs" />
     <Compile Include="SQLDataLoadTbl\ProdmanHistory.cs" />
     <Compile Include="SQLDataLoadTbl\ProdmanProto.cs" />
+    <Compile Include="SQLTable\EpicorFlattenedBOM.cs" />
     <Compile Include="SQLTable\EpicorPart.cs" />
     <Compile Include="SQLTable\EpicorPartRev.cs" />
     <Compile Include="SQLTable\EpicorSerialMatch.cs" />
@@ -96,6 +97,11 @@
     <Compile Include="SQLDataLoadTbl\PLMDataLoadECOdata.cs" />
     <Compile Include="SQLDataLoadTbl\PLMDataLoadItemMaster.cs" />
     <Compile Include="SQLTable\MfgDataUnmarryHistory.cs" />
+    <Compile Include="SQLTable\OmnifyEmpowerIDs.cs" />
+    <Compile Include="SQLTable\OmnifyEntry.cs" />
+    <Compile Include="SQLTable\OmnifyRev.cs" />
+    <Compile Include="SQLTable\OmnifyViewEmpowerItem.cs" />
+    <Compile Include="SQLTable\OmnifyViewGetItemDocs.cs" />
     <Compile Include="SQLTable\PLMDataLoadMPNDataSheet.cs" />
     <Compile Include="SQLTable\PLMDataLoadMPNImageSet.cs" />
     <Compile Include="SQLTable\PLMDataLoadMPNOffer.cs" />
