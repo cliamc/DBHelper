@@ -93,5 +93,30 @@ namespace DBHelper
             return isNum;
         }
 
+        public static string ShortFileName(string fn)
+        {
+            string[] subs = fn.Split('_');
+            int index = subs.Length > 2 ? subs[0].Length + subs[1].Length + 2 : 0;
+            string sfn = fn.Substring(index);
+
+            return sfn;
+        }
+
+        public static bool FindTokenInCommaString(string tk, string str)
+        {
+            bool ret = false;
+
+            string[] words = str.Split(',');
+            foreach(string w in words)
+            {
+                if (string.Equals(w, tk, StringComparison.OrdinalIgnoreCase))
+                {
+                    ret = true;
+                    break;
+                }
+            }
+
+            return ret;
+        }
     } // Util class
 }
