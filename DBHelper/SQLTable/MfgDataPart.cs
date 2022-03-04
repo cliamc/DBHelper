@@ -67,11 +67,18 @@ namespace DBHelper.SQLTable
             return dt;
         }
 
-        public List<string> GetJobSerialNumbers(string job)
+        public List<string> GetJobSerialNumbers(string job, bool all)
         {
             List<string> sns = new List<string>();
-
-            string sqlCmd = string.Format("select p.SerialNumber from Part p join Job j on p.jID = j.jID where j.Job = '{0}' order by p.SerialNumber", job);
+            string sqlCmd = "";
+            if (all)
+            {
+                sqlCmd = string.Format("select p.SerialNumber from Part p join Job j on p.jID = j.jID where j.Job = '{0}' order by p.SerialNumber", job);
+            }
+            else
+            {
+                sqlCmd = string.Format("select p.SerialNumber from Part p join Job j on p.jID = j.jID where j.Job = '{0}' and (p.UnMarryComputer is NULL) order by p.SerialNumber", job);
+            }
             dbAccess.SetQueryCmd(sqlCmd);
             DataTable dt = dbAccess.ReadDbData();
 
