@@ -54,7 +54,6 @@ namespace DBHelper
                 partNumber = fullPartNum;
             }
         }
-
         public static bool VersionLarger(string partNumNew, string partNumOld)
         {
             float newVer = Convert.ToSingle(partNumNew);
