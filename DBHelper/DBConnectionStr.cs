@@ -21,18 +21,21 @@ namespace DBHelper
         public const string ConnStrEpicorProd = "Data Source=bitis;Initial Catalog=epicor905;Persist Security Info=True;User ID=e9prog;Password=e9prog";
         const string ConnStrEpicorTest = "Data Source=bitis;Initial Catalog=epicortest905;Persist Security Info=True;User ID=e9prog;Password=e9prog";
 
+        public const string ConnStrKineticProd = "Data Source=amc-erp-sql;Initial Catalog=KineticERP;Persist Security Info=True;User ID=e11prodprog;Password=cfe5jyf1KZR*xtu7dju";
+        const string ConnStrKineticTest = "Data Source=amc-erp-sql;Initial Catalog=KineticTest;Persist Security Info=True;User ID=e11testprog;Password=wpd0ehn.frd1ENR5ekn";
+
         public const string ConnStrOmnifyProd = "Data Source=amc-plm-sql\\omnifyplm;Initial Catalog=Omnify7Prod;Persist Security Info=True;User ID=EpicorLinkedServerUser;Password=EpicorLinkedServerUser";
         const string ConnStrOmnifyTest = "Data Source=amc-plm-sql\\omnifyplm;Initial Catalog=Omnify7Test;Persist Security Info=True;User ID=EpicorLinkedServerUser;Password=EpicorLinkedServerUser";
 
         /******* Stop developing code for FoxPro *******/
-        private static string OLEFoxProProd = @"Data Source=\\BOA\Production\Prodman.vfp\DATABASE\{0}.dbf;Provider=VFPOLEDB.1;";
-        private static string OLEFoxProDev = @"Data Source=\\BOA\Production\Prodman.dev\DATABASE\{0}.dbf;Provider=VFPOLEDB.1;";
+        //private static string OLEFoxProProd = @"Data Source=\\BOA\Production\Prodman.vfp\DATABASE\{0}.dbf;Provider=VFPOLEDB.1;";
+        //private static string OLEFoxProDev = @"Data Source=\\BOA\Production\Prodman.dev\DATABASE\{0}.dbf;Provider=VFPOLEDB.1;";
 
-        private static string ODBCFoxProProd = @"Driver={Microsoft Visual FoxPro Driver};UID=;PWD=;SourceDB=\\BOA\Production\Prodman.vfp\DATABASE\{0}.dbf;SourceType=DBF;Exclusive=No;BackgroundFetch=Yes;Collate=Machine;Null=Yes;Deleted=Yes;";
-        private static string ODBCFoxProDev1 = @"Driver={Microsoft Visual FoxPro Driver};UID=;PWD=;SourceDB=\\BOA\Production\Prodman.Dev\DATABASE\";
-        private static string ODBCFoxProDev3 = ".DBF;SourceType=DBF;Exclusive=No;BackgroundFetch=Yes;Collate=Machine;Null=Yes;Deleted=Yes;";
+        //private static string ODBCFoxProProd = @"Driver={Microsoft Visual FoxPro Driver};UID=;PWD=;SourceDB=\\BOA\Production\Prodman.vfp\DATABASE\{0}.dbf;SourceType=DBF;Exclusive=No;BackgroundFetch=Yes;Collate=Machine;Null=Yes;Deleted=Yes;";
+        //private static string ODBCFoxProDev1 = @"Driver={Microsoft Visual FoxPro Driver};UID=;PWD=;SourceDB=\\BOA\Production\Prodman.Dev\DATABASE\";
+        //private static string ODBCFoxProDev3 = ".DBF;SourceType=DBF;Exclusive=No;BackgroundFetch=Yes;Collate=Machine;Null=Yes;Deleted=Yes;";
 
-        private static string testStr = @"Driver={Microsoft dBASE Driver (*.dbf)};DriverID=277;Dbq=\\BOA\Production\Prodman.vfp\DATABASE\amplifs.DBC;";
+        //private static string testStr = @"Driver={Microsoft dBASE Driver (*.dbf)};DriverID=277;Dbq=\\BOA\Production\Prodman.vfp\DATABASE\amplifs.DBC;";
         /***********************************************/
 
         public static string ConnStrMfgData()
@@ -60,6 +63,16 @@ namespace DBHelper
 #endif
         }
 
+        public static string SQLKineticConnStr()
+        {
+#if DEBUG
+            //return ConnStrKineticProd;                           // For AssociateSubassembly test on 1/14/2020
+            return ConnStrKineticTest;
+#else
+            return ConnStrKineticProd;
+#endif
+        }
+
         public static string SQLOmnifyConnStr()
         {
 #if DEBUG
@@ -78,30 +91,30 @@ namespace DBHelper
         /*-------*/
 
         // Do not develop new code for FoxPro
-        public static string FoxProODBCConnStr(string TableName)
-        {
-            string tmp;
-#if DEBUG
-            //tmp = String.Format(ODBCFoxProDev, TableName);
-            //tmp = ODBCFoxProDev1 + TableName + ODBCFoxProDev3;
-            tmp = testStr;
-#else
-            tmp = String.Format(ODBCFoxProProd, TableName);
-#endif
-            return tmp;
-        }
+//        public static string FoxProODBCConnStr(string TableName)
+//        {
+//            string tmp;
+//#if DEBUG
+//            //tmp = String.Format(ODBCFoxProDev, TableName);
+//            //tmp = ODBCFoxProDev1 + TableName + ODBCFoxProDev3;
+//            tmp = testStr;
+//#else
+//            tmp = String.Format(ODBCFoxProProd, TableName);
+//#endif
+//            return tmp;
+//        }
 
-        // VFPOLEDB.1 provider is not registered on the local machine!
-        public static string FoxProOLEConnStr(string TableName)
-        {
-            string tmp;
-#if DEBUG
-            tmp = string.Format(OLEFoxProDev, TableName);
-#else
-            tmp = string.Format(OLEFoxProProd, TableName);
-#endif
-            return tmp;
-        }
+//        // VFPOLEDB.1 provider is not registered on the local machine!
+//        public static string FoxProOLEConnStr(string TableName)
+//        {
+//            string tmp;
+//#if DEBUG
+//            tmp = string.Format(OLEFoxProDev, TableName);
+//#else
+//            tmp = string.Format(OLEFoxProProd, TableName);
+//#endif
+//            return tmp;
+//        }
 
     } // class
 }
