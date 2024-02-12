@@ -67,12 +67,20 @@ namespace DBHelper.SQLTable
         }
 
         // Return true means the part number given is a subassembly component
-        public bool CheckSubRohs(string pn, out bool rohs)
+        public bool CheckSubRohs(string pn, out bool rohs, bool isRMA)
         {
             bool ret = false;
             rohs = false;
 
-            string sqlCmd = string.Format("select [Group], ClassID, RoHS from v_PartSearch_Class where PartNum = '{0}' and Status = 'Active'", pn);
+            string sqlCmd = "";
+            if (isRMA)
+            {
+                sqlCmd = string.Format("select [Group], ClassID, RoHS from v_PartSearch_Class where PartNum = '{0}'", pn);
+            }
+            else
+            {
+                sqlCmd = string.Format("select [Group], ClassID, RoHS from v_PartSearch_Class where PartNum = '{0}' and Status = 'Active'", pn);
+            }
             dbAccess.SetQueryCmd(sqlCmd);
             DataTable dt = dbAccess.ReadDbData();
             if (dt != null && dt.Rows.Count > 0)
