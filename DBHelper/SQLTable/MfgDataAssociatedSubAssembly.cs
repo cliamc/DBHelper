@@ -71,10 +71,10 @@ namespace DBHelper.SQLTable
             return dt;
         }
 
-        public DataTable GetJoblMarruedRecords(string job)                           // Used in ViewAssociationForm
+        public DataTable GetJoblMarriedRecords(string job)                           // Used in ViewAssociationForm
         {
-            string sqlCmd = string.Format("select p.SerialNumber, a.SerialNumber, a.AssociatedTime, a.AssociateUser, a.AssociateComputer from AssociatedSubAssembly a" +
-                                          " join Part p on a.pID = p.pID where p.SerialNumber like '{0}%' order by p.SerialNumber", job);
+            string sqlCmd = string.Format("select p.SerialNumber, a.SerialNumber, a.PartNumber, a.AssociatedTime, a.AssociateUser, a.AssociateComputer from AssociatedSubAssembly a" +
+                                          " join Part p on a.pID = p.pID where p.SerialNumber like '{0}%' order by p.SerialNumber, a.PartNumber", job);
             dbAccess.SetQueryCmd(sqlCmd);
             DataTable dt = dbAccess.ReadDbData();
 
