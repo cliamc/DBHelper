@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="AccessFoxProOLE.cs" />
     <Compile Include="AccessFoxProODBC.cs" />
+    <Compile Include="AppParam.cs" />
     <Compile Include="EmpowerHelp\BOMdata.cs" />
     <Compile Include="EmpowerHelp\EmpowerItem.cs" />
     <Compile Include="EmpowerHelp\ItemData.cs" />
@@ -60,7 +61,6 @@
     <Compile Include="FileHelper\FileObj.cs" />
     <Compile Include="FileHelper\FileObjExcel.cs" />
     <Compile Include="FileHelper\LineColumn.cs" />
-    <Compile Include="FoxProTable\FoxProAmplifs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AccessSQL.cs" />
     <Compile Include="DBConnectionStr.cs" />
@@ -73,12 +73,24 @@
     <Compile Include="SQLDataLoadTbl\ProdmanCurrent.cs" />
     <Compile Include="SQLDataLoadTbl\ProdmanHistory.cs" />
     <Compile Include="SQLDataLoadTbl\ProdmanProto.cs" />
+    <Compile Include="SQLKinetic\KineticFlattenedBOM.cs" />
+    <Compile Include="SQLKinetic\KineticJobMtl.cs" />
+    <Compile Include="SQLKinetic\KineticPart.cs" />
+    <Compile Include="SQLKinetic\KineticPartRev.cs" />
+    <Compile Include="SQLKinetic\KineticSerialMatch.cs" />
+    <Compile Include="SQLKinetic\KineticSNTran.cs" />
+    <Compile Include="SQLKinetic\KineticVJobInformation.cs" />
+    <Compile Include="SQLKinetic\KineticVJobInformationAll.cs" />
+    <Compile Include="SQLKinetic\KineticVPartSearch.cs" />
+    <Compile Include="SQLKinetic\KineticVPartWhereUsedFGAllRev.cs" />
     <Compile Include="SQLTable\EpicorFlattenedBOM.cs" />
     <Compile Include="SQLTable\EpicorPart.cs" />
     <Compile Include="SQLTable\EpicorPartRev.cs" />
     <Compile Include="SQLTable\EpicorSerialMatch.cs" />
+    <Compile Include="SQLTable\EpicorSNTran.cs" />
     <Compile Include="SQLTable\EpicorVJobInformation.cs" />
     <Compile Include="SQLTable\EpicorJobMtl.cs" />
+    <Compile Include="SQLTable\EpicorVJobInformationAll.cs" />
     <Compile Include="SQLTable\EpicorVPartSearch.cs" />
     <Compile Include="SQLTable\EpicorVPartWhereUsedFGAllRev.cs" />
     <Compile Include="SQLTable\MfgDataPLDDevice.cs" />
@@ -88,6 +100,7 @@
     <Compile Include="SQLDataLoadTbl\MfgDataDevAMLbase.cs" />
     <Compile Include="SQLTable\MfgDataNotSerializedSub.cs" />
     <Compile Include="SQLTable\MfgDataPLDParameter.cs" />
+    <Compile Include="SQLTable\MfgDataSMTmissingEntries.cs" />
     <Compile Include="SQLTable\MfgDataSubPart.cs" />
     <Compile Include="SQLTable\MfgDataTraceRecord.cs" />
     <Compile Include="SQLTable\MfgDataPart.cs" />
