@@ -13,24 +13,6 @@ namespace DBHelper.SQLTable
             dbAccess.SetConnStr(DBConnectionStr.SQLEpicorConnStr());
         }
 
-        //public string GetAMCPartNumber(string pn)
-        //{
-        //    string sqlCmd = string.Format("select Character01 from Part where PartNum = '{0}'", pn);
-        //    dbAccess.SetQueryCmd(sqlCmd);
-        //    object retVal = dbAccess.GetASingleValue();
-
-        //    if (retVal != null)
-        //    {
-        //        this.AMCPartNumber = (string)retVal;
-        //    }
-        //    else
-        //    {
-        //        this.AMCPartNumber = pn;
-        //    }
-
-        //    return this.AMCPartNumber;
-        //}
-
         public DataTable GetAMCPartNumber(string pn)
         {
             string sqlCmd = string.Format("select Character01, Character02, Character03 from Part where PartNum = '{0}'", pn);
@@ -41,6 +23,20 @@ namespace DBHelper.SQLTable
             DataTable dt = dbAccess.LoadDbData();
 
             return dt;
+        }
+
+        public string GetPNnoSNtrack(string pn)
+        {
+            string sqlCmd = string.Format("select Partnum from Part where TypeCode = 'M' and InActive = '0' and TrackSerialNum = '0' and PartNum = '{0}'", pn);
+            dbAccess.SetQueryCmd(sqlCmd);
+            object retVal = dbAccess.GetASingleValue();
+
+            if (retVal != null)
+            {
+                return (string)retVal;
+            }
+
+            return "NOT_FOUND";
         }
 
     } // class
